@@ -22,7 +22,7 @@ public class Room {
         this.exits = new ArrayList<>();
     }
 
-    public Room(int roomNumber, String roomDescription, ArrayList<Room> exits) {
+    public Room(int roomNumber, String roomDescription, List<Room> exits) {
         this.roomNumber = roomNumber;
         this.description = roomDescription;
         this.exits = exits;

@@ -12,6 +12,8 @@ import uk.me.jamesburt.huntthewumpus.model.Turn;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.me.jamesburt.huntthewumpus.model.Turn.TurnType.MOVE;
+import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aSimpleRoom;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,8 +37,8 @@ public class TestGameService {
     public void testGetGameState() {
         // given
         // TODO gamestate be updated in a NextTurnProcessor, which resolves the gamestate and saves it
-        GameState initialState = new GameState(new Room("TestGameServiceRoom"));
-        Turn turn = new Turn();
+        GameState initialState = new GameState(aSimpleRoom());
+        Turn turn = new Turn(MOVE, 1);
         when(gameStateLoader.getCurrentState()).thenReturn(initialState);
         when(textViewMaker.generateText(any())).thenReturn("View");
         when(turnProcessor.updateGameState(initialState, turn)).thenReturn(new GameState(new Room("Result room")));
