@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'info.solidsoft.pitest' version '1.7.4'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation"junit:junit:4.13.2"
+    testCompile("org.mockito:mockito-core:4.1.0")
+}
+
+pitest {
+    targetClasses = ['uk.me.jamesburt.*']
+    pitestVersion = '1.7.4'
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+}
