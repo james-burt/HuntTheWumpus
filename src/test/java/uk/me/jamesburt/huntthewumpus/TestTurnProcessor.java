@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
+import uk.me.jamesburt.huntthewumpus.model.Room;
 import uk.me.jamesburt.huntthewumpus.model.Turn;
 
 import static org.junit.Assert.*;
@@ -18,7 +19,7 @@ public class TestTurnProcessor {
     @Test
     public void testUpdateGameState() {
         // given
-        GameState initialGameState = new GameState();
+        GameState initialGameState = new GameState(new Room("TurnProcessor Test Room"));
         Turn turn = new Turn();
 
         // when
