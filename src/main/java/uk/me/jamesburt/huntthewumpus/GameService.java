@@ -11,14 +11,19 @@ public class GameService {
 
     private final TextViewMaker textViewMaker;
     private final GameStateLoader gameStateLoader;
+    private final TurnProcessor turnProcessor;
 
-    public GameService(TextViewMaker textViewMaker, GameStateLoader gameStateLoader) {
+    public GameService(TextViewMaker textViewMaker,
+                       GameStateLoader gameStateLoader,
+                       TurnProcessor turnProcessor) {
         this.textViewMaker = textViewMaker;
         this.gameStateLoader = gameStateLoader;
+        this.turnProcessor = turnProcessor;
     }
 
     public String handleTurn(Turn turn) {
-        GameState gameState = gameStateLoader.getCurrentState();
-        return textViewMaker.generateText(gameState);
+        GameState initialGameState = gameStateLoader.getCurrentState();
+        GameState updatedGamrState = turnProcessor.updateGameState(initialGameState, turn);
+        return textViewMaker.generateText(updatedGamrState);
     }
 }

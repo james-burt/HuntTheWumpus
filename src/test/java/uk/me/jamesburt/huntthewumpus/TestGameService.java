@@ -22,6 +22,9 @@ public class TestGameService {
     @Mock
     GameStateLoader gameStateLoader;
 
+    @Mock
+    TurnProcessor turnProcessor;
+
     @InjectMocks
     GameService gameService;
 
@@ -29,9 +32,11 @@ public class TestGameService {
     public void testGetGameState() {
         // given
         // TODO gamestate be updated in a NextTurnProcessor, which resolves the gamestate and saves it
-        when(textViewMaker.generateText(any())).thenReturn("View");
-        when(gameStateLoader.getCurrentState()).thenReturn(new GameState());
+        GameState initialState = new GameState();
         Turn turn = new Turn();
+        when(gameStateLoader.getCurrentState()).thenReturn(initialState);
+        when(textViewMaker.generateText(any())).thenReturn("View");
+        when(turnProcessor.updateGameState(initialState, turn)).thenReturn(new GameState());
 
         // when
         String s = gameService.handleTurn(turn);
