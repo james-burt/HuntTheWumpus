@@ -2,7 +2,7 @@ package uk.me.jamesburt.huntthewumpus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,8 +11,7 @@ import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Room;
 
 import static org.junit.Assert.assertEquals;
-import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aRoomWithTwoExits;
-import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aSimpleRoom;
+import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,7 +22,7 @@ public class TestTextViewMaker {
 
     @Test
     public void testGetGameState() {
-        GameState gameState = new GameState(aSimpleRoom());
+        GameState gameState = new GameState(aSimpleMap());
 
         // when
         String s = textViewMaker.generateText(gameState);
@@ -36,20 +35,20 @@ public class TestTextViewMaker {
 
     @Test
     public void testGetGameStateRoomWithNoExits() {
-        GameState gameState = new GameState(new Room(1, "A simple room", new ArrayList<>()));
+        GameState gameState = new GameState(aSimpleMap());
 
         // when
         String s = textViewMaker.generateText(gameState);
 
         // then
-        String expectedOutput = "You are in room 1. A simple room.";
+        String expectedOutput = "You are in room 1. A simple room. You can go from here to room 2";
         assertEquals(expectedOutput, s);
     }
 
     @Test
     public void testGetGameStateThreeRooms() {
 
-        GameState gameState = new GameState(aRoomWithTwoExits());
+        GameState gameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
 
         // when
         String s = textViewMaker.generateText(gameState);

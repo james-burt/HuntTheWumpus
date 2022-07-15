@@ -1,5 +1,6 @@
 package uk.me.jamesburt.huntthewumpus;
 
+import uk.me.jamesburt.huntthewumpus.exceptions.RoomNotAccessibleException;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Turn;
 
@@ -21,9 +22,19 @@ public class GameService {
         this.turnProcessor = turnProcessor;
     }
 
+    public String startGame() {
+        return textViewMaker.generateText(gameStateLoader.getCurrentState());
+    }
+
     public String handleTurn(Turn turn) {
         GameState initialGameState = gameStateLoader.getCurrentState();
-        GameState updatedGamrState = turnProcessor.updateGameState(initialGameState, turn);
-        return textViewMaker.generateText(updatedGamrState);
+        GameState updatedGameState;
+        try {
+            updatedGameState = turnProcessor.updateGameState(initialGameState, turn);
+        } catch (RoomNotAccessibleException rnae) {
+            // TODO need to manage text generation
+            return "You cannot reach room " + turn.getTargetRoom() + " from room " + initialGameState.getCurrentRoom().getRoomNumber();
+        }
+        return textViewMaker.generateText(updatedGameState);
     }
 }

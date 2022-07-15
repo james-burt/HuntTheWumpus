@@ -1,9 +1,14 @@
 package uk.me.jamesburt.huntthewumpus.model;
 
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
+@EqualsAndHashCode
 public class Room {
 
     private final int roomNumber;

@@ -4,14 +4,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+import uk.me.jamesburt.huntthewumpus.exceptions.AlreadyInRoomException;
+import uk.me.jamesburt.huntthewumpus.exceptions.RoomNotAccessibleException;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Turn;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 import static uk.me.jamesburt.huntthewumpus.model.Turn.TurnType.MOVE;
 import static uk.me.jamesburt.huntthewumpus.model.Turn.TurnType.SHOOT;
-import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aRoomWithTwoExits;
-import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aSimpleRoom;
+import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestTurnProcessor {
@@ -22,7 +25,7 @@ public class TestTurnProcessor {
     @Test
     public void testUpdateGameState() {
         // given
-        GameState initialGameState = new GameState(aSimpleRoom());
+        GameState initialGameState = new GameState(aSimpleMap());
         Turn turn = new Turn(MOVE, 2);
 
         // when
@@ -37,14 +40,13 @@ public class TestTurnProcessor {
     public void testUpdateGameStateIllegalMove() {
         // given
         Turn turn = new Turn(MOVE, 4);
-        GameState initialGameState = new GameState(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
 
         // when
         try {
             turnProcessor.updateGameState(initialGameState, turn);
             fail("An exception is expected");
-        } catch (RuntimeException re) {
-            assertEquals("Room not accessible", re.getMessage());
+        } catch (RoomNotAccessibleException re) {
         }
     }
 
@@ -52,14 +54,14 @@ public class TestTurnProcessor {
     public void testUpdateGameStateIllegalMoveSameRoom() {
         // given
         Turn turn = new Turn(MOVE, 1);
-        GameState initialGameState = new GameState(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
 
         // when
         try {
             turnProcessor.updateGameState(initialGameState, turn);
             fail("An exception is expected");
-        } catch (RuntimeException re) {
-            assertEquals("This is the same room", re.getMessage());
+        } catch (AlreadyInRoomException re) {
+
         }
     }
 
@@ -67,7 +69,7 @@ public class TestTurnProcessor {
     public void testUpdateGameStateShootNotImplemented() {
         // given
         Turn turn = new Turn(SHOOT, 1);
-        GameState initialGameState = new GameState(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
 
         // when
         try {

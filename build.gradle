@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'info.solidsoft.pitest' version '1.7.4'
+    id 'io.freefair.lombok' version '6.5.0.2'
 }
 
 group 'org.example'
@@ -11,8 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.18'
     testImplementation"junit:junit:4.13.2"
-    testCompile("org.mockito:mockito-core:4.1.0")
+    testImplementation("org.mockito:mockito-core:4.1.0")
 }
 
 pitest {

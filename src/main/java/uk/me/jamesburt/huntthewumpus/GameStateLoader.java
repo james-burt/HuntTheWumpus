@@ -4,7 +4,19 @@ import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Room;
 
 public class GameStateLoader {
+
+    private final MapGenerator mapGenerator;
+
+    GameState currentGameState = null;
+
+    public GameStateLoader(MapGenerator mapGenerator) {
+        this.mapGenerator = mapGenerator;
+    }
+
     public GameState getCurrentState() {
-        return new GameState(new Room("Test room"));
+        if(currentGameState==null) {
+            currentGameState = new GameState(mapGenerator.createNewMap());
+        }
+        return currentGameState;
     }
 }

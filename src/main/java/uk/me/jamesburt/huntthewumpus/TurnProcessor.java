@@ -1,9 +1,12 @@
 package uk.me.jamesburt.huntthewumpus;
 
+import uk.me.jamesburt.huntthewumpus.exceptions.AlreadyInRoomException;
+import uk.me.jamesburt.huntthewumpus.exceptions.RoomNotAccessibleException;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Room;
 import uk.me.jamesburt.huntthewumpus.model.Turn;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,13 +17,13 @@ public class TurnProcessor {
             throw new UnsupportedOperationException();
         }
         if(turn.getTargetRoom() == gameState.getCurrentRoom().getRoomNumber()) {
-            throw new RuntimeException("This is the same room");
+            throw new AlreadyInRoomException();
         }
         List<Room> possibleExits = gameState.getCurrentRoom().getExits();
         Optional<Room> targetRoom = possibleExits.stream().filter(p -> p.getRoomNumber()== turn.getTargetRoom()).findFirst();
         if(!targetRoom.isPresent()) {
-            throw new RuntimeException("Room not accessible");
+            throw new RoomNotAccessibleException();
         }
-        return new GameState(new Room("Updated room"));
+        return new GameState(Arrays.asList(targetRoom.get()));
     }
 }

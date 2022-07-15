@@ -7,6 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RoomFactory {
+
+    public static List<Room> aSimpleMap() {
+        List<Room> singleExit = Arrays.asList(new Room[]{new Room(2, "Test Room", new ArrayList<>())});
+
+        return Arrays.asList(new Room(1, "A simple room", singleExit));
+
+    }
+
     public static Room aSimpleRoom() {
         List<Room> singleExit = Arrays.asList(new Room[]{new Room(2, "Test Room", new ArrayList<>())});
 
