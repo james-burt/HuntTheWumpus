@@ -9,6 +9,7 @@ import java.util.List;
 public class RoomFactory {
 
     public static List<Room> aSimpleMap() {
+        // TODO can generate this off aSimpleRoom()
         List<Room> singleExit = Arrays.asList(new Room[]{new Room(2, "Test Room", new ArrayList<>())});
 
         return Arrays.asList(new Room(1, "A simple room", singleExit));

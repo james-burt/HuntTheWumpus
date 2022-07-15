@@ -24,6 +24,6 @@ public class TurnProcessor {
         if(!targetRoom.isPresent()) {
             throw new RoomNotAccessibleException();
         }
-        return new GameState(Arrays.asList(targetRoom.get()));
+        return new GameState(targetRoom.get(), gameState.getMap());
     }
 }

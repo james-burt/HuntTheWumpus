@@ -2,6 +2,7 @@ package uk.me.jamesburt.huntthewumpus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,8 @@ public class TestTextViewMaker {
 
     @Test
     public void testGetGameState() {
-        GameState gameState = new GameState(aSimpleMap());
+        List<Room> simpleMap = aSimpleMap();
+        GameState gameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         String s = textViewMaker.generateText(gameState);
@@ -35,20 +37,22 @@ public class TestTextViewMaker {
 
     @Test
     public void testGetGameStateRoomWithNoExits() {
-        GameState gameState = new GameState(aSimpleMap());
+        List<Room> simpleMap = Arrays.asList(new Room(1, "A simple room" ));
+        GameState gameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         String s = textViewMaker.generateText(gameState);
 
         // then
-        String expectedOutput = "You are in room 1. A simple room. You can go from here to room 2";
+        String expectedOutput = "You are in room 1. A simple room.";
         assertEquals(expectedOutput, s);
     }
 
     @Test
     public void testGetGameStateThreeRooms() {
 
-        GameState gameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
+        List<Room> simpleMap = Arrays.asList(aRoomWithTwoExits());
+        GameState gameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         String s = textViewMaker.generateText(gameState);

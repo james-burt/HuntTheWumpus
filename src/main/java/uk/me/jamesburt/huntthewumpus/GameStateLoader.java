@@ -3,6 +3,8 @@ package uk.me.jamesburt.huntthewumpus;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
 import uk.me.jamesburt.huntthewumpus.model.Room;
 
+import java.util.List;
+
 public class GameStateLoader {
 
     private final MapGenerator mapGenerator;
@@ -15,7 +17,8 @@ public class GameStateLoader {
 
     public GameState getCurrentState() {
         if(currentGameState==null) {
-            currentGameState = new GameState(mapGenerator.createNewMap());
+            List<Room> newMap = mapGenerator.createNewMap();
+            currentGameState = new GameState(newMap.get(0), newMap);
         }
         return currentGameState;
     }

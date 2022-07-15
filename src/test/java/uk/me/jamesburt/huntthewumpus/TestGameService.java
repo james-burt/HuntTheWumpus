@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static uk.me.jamesburt.huntthewumpus.model.Turn.TurnType.MOVE;
+import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aSimpleMap;
 import static uk.me.jamesburt.huntthewumpus.testfactories.RoomFactory.aSimpleRoom;
 
 
@@ -38,7 +39,8 @@ public class TestGameService {
 
     @Test
     public void testStartGame() {
-        GameState gameState = new GameState(Arrays.asList(aSimpleRoom()));
+        List<Room> map = aSimpleMap();
+        GameState gameState = new GameState(map.get(0), map);
         when(gameStateLoader.getCurrentState()).thenReturn(gameState);
         when(textViewMaker.generateText(gameState)).thenReturn("Test data");
 
@@ -53,12 +55,12 @@ public class TestGameService {
         // given
         // TODO gamestate be updated in a NextTurnProcessor, which resolves the gamestate and saves it
         List<Room> simpleMap = Arrays.asList(aSimpleRoom());
-        GameState initialState = new GameState(Arrays.asList(aSimpleRoom()));
+        GameState initialState = new GameState(simpleMap.get(0), simpleMap);
         Turn turn = new Turn(MOVE, 1);
         when(gameStateLoader.getCurrentState()).thenReturn(initialState);
         when(textViewMaker.generateText(any())).thenReturn("View");
         // TODO make this more precise
-        when(turnProcessor.updateGameState(initialState, turn)).thenReturn(new GameState(simpleMap));
+        when(turnProcessor.updateGameState(initialState, turn)).thenReturn(new GameState(simpleMap.get(0),simpleMap));
 
         // when
         String s = gameService.handleTurn(turn);
@@ -72,7 +74,8 @@ public class TestGameService {
     public void getGameStateRoomNotAccessible() {
         // given
         // We use a simple room in the state since the map navigation is managed by the gameStateLoader mock
-        GameState initialState = new GameState(Arrays.asList(aSimpleRoom()));
+        List<Room> simpleMap = Arrays.asList(aSimpleRoom());
+        GameState initialState = new GameState(simpleMap.get(0), simpleMap);
         Turn turn = new Turn(MOVE, 6);
         when(gameStateLoader.getCurrentState()).thenReturn(initialState);
         verifyNoInteractions(textViewMaker);

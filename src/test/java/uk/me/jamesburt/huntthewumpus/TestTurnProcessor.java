@@ -7,9 +7,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import uk.me.jamesburt.huntthewumpus.exceptions.AlreadyInRoomException;
 import uk.me.jamesburt.huntthewumpus.exceptions.RoomNotAccessibleException;
 import uk.me.jamesburt.huntthewumpus.model.GameState;
+import uk.me.jamesburt.huntthewumpus.model.Room;
 import uk.me.jamesburt.huntthewumpus.model.Turn;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static uk.me.jamesburt.huntthewumpus.model.Turn.TurnType.MOVE;
@@ -25,7 +27,8 @@ public class TestTurnProcessor {
     @Test
     public void testUpdateGameState() {
         // given
-        GameState initialGameState = new GameState(aSimpleMap());
+        List<Room> simpleMap = Arrays.asList(aSimpleRoom());
+        GameState initialGameState = new GameState(simpleMap.get(0), simpleMap);
         Turn turn = new Turn(MOVE, 2);
 
         // when
@@ -40,7 +43,8 @@ public class TestTurnProcessor {
     public void testUpdateGameStateIllegalMove() {
         // given
         Turn turn = new Turn(MOVE, 4);
-        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
+        List<Room> simpleMap = Arrays.asList(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         try {
@@ -54,7 +58,8 @@ public class TestTurnProcessor {
     public void testUpdateGameStateIllegalMoveSameRoom() {
         // given
         Turn turn = new Turn(MOVE, 1);
-        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
+        List<Room> simpleMap = Arrays.asList(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         try {
@@ -69,7 +74,8 @@ public class TestTurnProcessor {
     public void testUpdateGameStateShootNotImplemented() {
         // given
         Turn turn = new Turn(SHOOT, 1);
-        GameState initialGameState = new GameState(Arrays.asList(aRoomWithTwoExits()));
+        List<Room> simpleMap = Arrays.asList(aRoomWithTwoExits());
+        GameState initialGameState = new GameState(simpleMap.get(0), simpleMap);
 
         // when
         try {

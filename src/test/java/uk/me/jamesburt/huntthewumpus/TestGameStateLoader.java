@@ -28,7 +28,7 @@ public class TestGameStateLoader {
     @Test
     public void testGetGameStateNoCurrentGame() {
         List<Room> simpleMap = Arrays.asList(aSimpleRoom());
-        GameState generatedGameState = new GameState(simpleMap);
+        GameState generatedGameState = new GameState(simpleMap.get(0),simpleMap);
         when(mapGenerator.createNewMap()).thenReturn(simpleMap);
 
         GameState createdState = gameStateLoader.getCurrentState();
@@ -43,7 +43,7 @@ public class TestGameStateLoader {
     @Test
     public void testGetGameStateWithCurrentGame() {
         List<Room> simpleMap = Arrays.asList(aSimpleRoom());
-        GameState generatedGameState = new GameState(simpleMap);
+        GameState generatedGameState = new GameState(simpleMap.get(0),simpleMap);
         when(mapGenerator.createNewMap()).thenReturn(simpleMap);
 
         gameStateLoader.getCurrentState();
